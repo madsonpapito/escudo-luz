@@ -1,10 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { DIAS, SOS_AUDIOS, FASES, type Dia, type SosAudio } from './lib/content'
+import { supabase } from './lib/supabase'
 import './index.css'
-
-// ───── MOCK: dias concluídos (simulando dia 11 ativo) ─────
-const DIAS_CONCLUIDOS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-const DIA_ATUAL = 11
 
 // ───── AUDIO PLAYER HOOK ─────
 function useAudioPlayer(url: string) {
@@ -83,10 +80,11 @@ function Waveform({ progress, onClick }: { progress: number; onClick: (r: number
 }
 
 // ───── ACTIVE PLAYER CARD ─────
-function PlayerCard({ dia, onComplete, completed }: {
+function PlayerCard({ dia, onComplete, completed, loadingComplete }: {
     dia: Dia
     onComplete: () => void
     completed: boolean
+    loadingComplete?: boolean
 }) {
     const { playing, progress, currentTime, duration, toggle, seek } = useAudioPlayer(dia.audioUrl)
     const fase = FASES[dia.fase]
@@ -106,9 +104,10 @@ function PlayerCard({ dia, onComplete, completed }: {
                     <span className="player-time">{duration > 0 ? fmtTime(duration) : dia.duracao}</span>
                     <button
                         className={`btn-complete ${completed ? 'completed' : ''}`}
-                        onClick={!completed ? onComplete : undefined}
+                        onClick={!completed && !loadingComplete ? onComplete : undefined}
+                        disabled={loadingComplete}
                     >
-                        {completed ? '✓ Concluído' : '✓ Marcar Concluído'}
+                        {loadingComplete ? 'Salvando...' : completed ? '✓ Concluído' : '✓ Marcar Concluído'}
                     </button>
                 </div>
             </div>
@@ -117,24 +116,42 @@ function PlayerCard({ dia, onComplete, completed }: {
 }
 
 // ───── JORNADA VIEW ─────
-function JornadaView({ concluidos, setConcluidos }: {
+function JornadaView({ concluidos, setConcluidos, updateProgress }: {
     concluidos: number[]
     setConcluidos: React.Dispatch<React.SetStateAction<number[]>>
+    updateProgress: (newDay: number) => Promise<void>
 }) {
-    const [faseAtiva, setFaseAtiva] = useState<1 | 2 | 3>(DIA_ATUAL <= 10 ? 1 : DIA_ATUAL <= 20 ? 2 : 3)
-    const [diaAtivo, setDiaAtivo] = useState(DIAS.find(d => d.id === DIA_ATUAL)!)
+    const ultimoDia = concluidos.length > 0 ? Math.max(...concluidos) + 1 : 1
+    const diaAtual = Math.min(ultimoDia, 30)
+
+    const [faseAtiva, setFaseAtiva] = useState<1 | 2 | 3>(diaAtual <= 10 ? 1 : diaAtual <= 20 ? 2 : 3)
+    const [diaAtivo, setDiaAtivo] = useState(DIAS.find(d => d.id === diaAtual)!)
+    const [isSaving, setIsSaving] = useState(false)
+
+    // Atualiza o dia ativo caso a pessoa conclua o dia atual dela
+    useEffect(() => {
+        // Se ela marcou como concluído e estamos vendo o dia novo, avança
+        if (concluidos.includes(diaAtivo.id) && diaAtivo.id < 30) {
+            setDiaAtivo(DIAS.find(d => d.id === diaAtivo.id + 1)!)
+        }
+    }, [concluidos])
 
     const diasDaFase = DIAS.filter(d => d.fase === faseAtiva)
 
     function getStatus(id: number): 'completed' | 'active' | 'locked' {
         if (concluidos.includes(id)) return 'completed'
-        if (id === DIA_ATUAL) return 'active'
-        if (id <= DIA_ATUAL) return 'active' // desbloqueado mas não concluído
+        if (id <= ultimoDia) return 'active' // desbloqueado
         return 'locked'
     }
 
     function progresso() {
         return Math.round((concluidos.length / 30) * 100)
+    }
+
+    async function handleComplete(id: number) {
+        setIsSaving(true)
+        await updateProgress(id)
+        setIsSaving(false)
     }
 
     return (
@@ -143,7 +160,8 @@ function JornadaView({ concluidos, setConcluidos }: {
             <PlayerCard
                 dia={diaAtivo}
                 completed={concluidos.includes(diaAtivo.id)}
-                onComplete={() => setConcluidos(prev => [...new Set([...prev, diaAtivo.id])])}
+                onComplete={() => handleComplete(diaAtivo.id)}
+                loadingComplete={isSaving}
             />
 
             {/* Barra de progresso total */}
@@ -223,21 +241,22 @@ function DownloadsView() {
                         <h3>Guia do Sentinela (PDF)</h3>
                         <p>Livro digital de acompanhamento dos 30 dias com espaço para anotações e reflexões</p>
                     </div>
-                    <a href="#" className="download-btn">⬇ Baixar</a>
+                    {/* Alterar o Href quando subir os PDFs para algum lugar, ou colocar na pasta public do vite */}
+                    <a href="/materiais/guia-do-sentinela.pdf" target="_blank" className="download-btn">⬇ Baixar</a>
                 </div>
                 <div className="download-item">
                     <div className="download-info">
                         <h3>Roteiro de Consagração do Lar</h3>
                         <p>Passo a passo com as orações impressas para o Ritual Final no Dia 30</p>
                     </div>
-                    <a href="#" className="download-btn">⬇ Baixar</a>
+                    <a href="/materiais/roteiro-consagracao-lar.pdf" target="_blank" className="download-btn">⬇ Baixar</a>
                 </div>
                 <div className="download-item">
                     <div className="download-info">
                         <h3>Salmo 91 — Versão para Impressão</h3>
                         <p>Para afixar na entrada da sua casa como declaração de proteção diária</p>
                     </div>
-                    <a href="#" className="download-btn">⬇ Baixar</a>
+                    <a href="/materiais/salmo-91-impressao.pdf" target="_blank" className="download-btn">⬇ Baixar</a>
                 </div>
             </div>
         </>
@@ -317,9 +336,8 @@ function SosMiniPlayer({ sos, onClose }: { sos: SosAudio; onClose: () => void })
     )
 }
 
-// ───── LOGIN PAGE ─────
-function LoginPage({ onLogin }: { onLogin: (email: string) => void }) {
-    const [mode, setMode] = useState<'login' | 'signup'>('login')
+// ───── LOGIN PAGE (Auth Real com Supabase) ─────
+function LoginPage({ onLoginSuccess }: { onLoginSuccess: () => void }) {
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
     const [erro, setErro] = useState('')
@@ -328,22 +346,38 @@ function LoginPage({ onLogin }: { onLogin: (email: string) => void }) {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
         if (!email || !senha) return setErro('Preencha todos os campos.')
-        if (senha.length < 6) return setErro('A senha precisa ter no mínimo 6 caracteres.')
+
         setLoading(true)
         setErro('')
-        // Demo: aceita qualquer login válido
-        await new Promise(r => setTimeout(r, 800))
-        onLogin(email)
-        setLoading(false)
+
+        const { error } = await supabase.auth.signInWithPassword({
+            email,
+            password: senha
+        })
+
+        if (error) {
+            setLoading(false)
+            if (error.message.includes("Invalid login")) {
+                setErro('Email ou senha incorretos.')
+            } else {
+                setErro(error.message)
+            }
+            return
+        }
+
+        // Sucesso - o App.tsx vai escutar a mudança de sessão automaticamente
+        onLoginSuccess()
     }
 
+    // Como já é tudo controlado pelo produtor, deixei só login. 
+    // O usuário é criado pelo Webhook.
     return (
         <div className="login-page">
             <div className="login-card">
                 <div className="login-logo">
                     <div className="login-shield">🛡️</div>
-                    <h1>Escudo de Luz</h1>
-                    <p>Jornada Espiritual de 30 Dias</p>
+                    <h1 style={{ fontFamily: 'Cinzel,serif' }}>Escudo de Luz</h1>
+                    <p style={{ color: 'var(--gold)' }}>Acesso do Sentinela</p>
                 </div>
 
                 {erro && <div className="error-msg">{erro}</div>}
@@ -351,25 +385,21 @@ function LoginPage({ onLogin }: { onLogin: (email: string) => void }) {
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Email</label>
-                        <input className="form-input" type="email" placeholder="seu@email.com"
+                        <input className="form-input" type="email" placeholder="Seu email de compra"
                             value={email} onChange={e => setEmail(e.target.value)} />
                     </div>
                     <div className="form-group">
                         <label>Senha</label>
-                        <input className="form-input" type="password" placeholder="••••••"
+                        <input className="form-input" type="password" placeholder="Sua senha recebida"
                             value={senha} onChange={e => setSenha(e.target.value)} />
                     </div>
                     <button className="btn-primary" type="submit" disabled={loading}>
-                        {loading ? 'Entrando...' : mode === 'login' ? '✦ Acessar Minha Jornada' : '✦ Criar Conta'}
+                        {loading ? 'Acessando...' : '✦ Entrar no meu Quartel General'}
                     </button>
                 </form>
 
                 <div className="form-switch">
-                    {mode === 'login' ? (
-                        <><span>Ainda não tem acesso?</span><button onClick={() => setMode('signup')}>Criar conta</button></>
-                    ) : (
-                        <><span>Já tem acesso?</span><button onClick={() => setMode('login')}>Fazer login</button></>
-                    )}
+                    <span style={{ fontSize: '0.85rem' }}>Dúvidas de acesso? Fale com o suporte.</span>
                 </div>
             </div>
         </div>
@@ -380,18 +410,80 @@ function LoginPage({ onLogin }: { onLogin: (email: string) => void }) {
 type Tab = 'jornada' | 'sos' | 'downloads' | 'ritual'
 
 export default function App() {
-    const [logado, setLogado] = useState(false)
-    const [userEmail, setUserEmail] = useState('')
+    const [session, setSession] = useState<any>(null)
+    const [loadingAuth, setLoadingAuth] = useState(true)
+
     const [tab, setTab] = useState<Tab>('jornada')
     const [sidebarOpen, setSidebarOpen] = useState(false)
-    const [concluidos, setConcluidos] = useState<number[]>(DIAS_CONCLUIDOS)
+    const [concluidos, setConcluidos] = useState<number[]>([])
     const [sosAtivo, setSosAtivo] = useState<typeof SOS_AUDIOS[0] | null>(null)
 
-    const progresso = Math.round((concluidos.length / 30) * 100)
+    // Escutar Sessão e Buscar Perfil
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session)
+            if (session) fetchProfile(session.user.id)
+            else setLoadingAuth(false)
+        })
 
-    if (!logado) {
-        return <LoginPage onLogin={email => { setUserEmail(email); setLogado(true) }} />
+        const {
+            data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session)
+            if (session) fetchProfile(session.user.id)
+        })
+
+        return () => subscription.unsubscribe()
+    }, [])
+
+    async function fetchProfile(userId: string) {
+        setLoadingAuth(true)
+        const { data, error } = await supabase
+            .from('escudo_profiles')
+            .select('dias_concluidos')
+            .eq('id', userId)
+            .single()
+
+        if (data) {
+            setConcluidos(data.dias_concluidos || [])
+        } else if (error) {
+            console.error("Erro ao puxar perfil:", error)
+        }
+        setLoadingAuth(false)
     }
+
+    async function salvarProgresso(novoDia: number) {
+        if (!session?.user?.id) return
+
+        const atualizados = [...new Set([...concluidos, novoDia])].sort((a, b) => a - b)
+
+        // Atualiza UI de forma otimista
+        setConcluidos(atualizados)
+
+        // Salva no banco
+        const { error } = await supabase
+            .from('escudo_profiles')
+            .update({ dias_concluidos: atualizados })
+            .eq('id', session.user.id)
+
+        if (error) {
+            console.error("Erro ao salvar progresso:", error)
+        }
+    }
+
+    async function handleLogout() {
+        await supabase.auth.signOut()
+    }
+
+    if (loadingAuth) {
+        return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gold)' }}>Carregando o Quartel General...</div>
+    }
+
+    if (!session) {
+        return <LoginPage onLoginSuccess={() => { }} />
+    }
+
+    const progresso = Math.round((concluidos.length / 30) * 100)
 
     const navItems: { id: Tab; label: string; icon: string }[] = [
         { id: 'jornada', label: 'Jornada de 30 Dias', icon: '🗺️' },
@@ -450,7 +542,7 @@ export default function App() {
                 </nav>
 
                 <div className="sidebar-footer">
-                    <button className="logout-btn" onClick={() => { setLogado(false); setUserEmail('') }}>
+                    <button className="logout-btn" onClick={handleLogout}>
                         🚪 Sair da Jornada
                     </button>
                 </div>
@@ -470,7 +562,7 @@ export default function App() {
                     <p>{titulos[tab].sub}</p>
                 </div>
 
-                {tab === 'jornada' && <JornadaView concluidos={concluidos} setConcluidos={setConcluidos} />}
+                {tab === 'jornada' && <JornadaView concluidos={concluidos} setConcluidos={setConcluidos} updateProgress={salvarProgresso} />}
                 {tab === 'sos' && <SosView onPlay={setSosAtivo} />}
                 {tab === 'downloads' && <DownloadsView />}
                 {tab === 'ritual' && <RitualView />}
