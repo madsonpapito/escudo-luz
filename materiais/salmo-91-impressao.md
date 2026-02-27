@@ -1,0 +1,61 @@
+# O Grande Escudo: Salmo 91
+
+**Para imprimir, enquadrar ou fixar na porta do seu lar como uma declaração diária de proteção poderosa.**
+
+***
+
+> 1 Aquele que habita no esconderijo do Altíssimo,  
+> à sombra do Onipotente descansará.
+> 
+> 2 Direi do Senhor: Ele é o meu Deus, o meu refúgio,  
+> a minha fortaleza, e nEle confiarei.
+> 
+> 3 Porque Ele te livrará do laço do passarinheiro,  
+> e da peste perniciosa.
+> 
+> 4 Ele te cobrirá com as suas penas,  
+> e debaixo das suas asas te confiarás;  
+> a sua verdade será o teu escudo e broquel.
+> 
+> 5 Não terás medo do terror de noite  
+> nem da seta que voa de dia,
+> 
+> 6 Nem da peste que anda na escuridão,  
+> nem da mortandade que assola ao meio-dia.
+> 
+> 7 Mil cairão ao teu lado,  
+> e dez mil à tua direita,  
+> mas não chegará a ti.
+> 
+> 8 Somente com os teus olhos contemplarás,  
+> e verás a recompensa dos ímpios.
+> 
+> 9 Porque tu, ó Senhor, és o meu refúgio.  
+> No Altíssimo fizeste a tua habitação.
+> 
+> 10 Nenhum mal te sucederá,  
+> nem praga alguma chegará à tua tenda.
+> 
+> 11 Porque aos seus anjos dará ordem a teu respeito,  
+> para te guardarem em todos os teus caminhos.
+> 
+> 12 Eles te sustentarão nas suas mãos,  
+> para que não tropeces com o teu pé em pedra.
+> 
+> 13 Pisarás o leão e a cobra;  
+> calcarás aos pés o filho do leão e a serpente.
+> 
+> 14 Porquanto tão encarecidamente me amou,  
+> também Eu o livrarei;  
+> pô-lo-ei em retiro alto, porque conheceu o meu nome.
+> 
+> 15 Ele me invocará, e Eu lhe responderei;  
+> estarei com ele na angústia;  
+> dela o retirarei, e o glorificarei.
+> 
+> 16 Fartá-lo-ei com longura de dias,  
+> e lhe mostrarei a minha salvação.
+
+***
+
+*(Coloque na sua porta, leia ao sair e agradeça ao voltar).*
