@@ -265,7 +265,7 @@ function DownloadsView() {
 
 // ───── RITUAL VIEW ─────
 function RitualView() {
-    const ritual = useAudioPlayer('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3')
+    const ritual = useAudioPlayer('/audios/ritual_ritual.mp3')
     return (
         <>
             <p style={{ color: 'var(--text-muted)', marginBottom: 28 }}>
