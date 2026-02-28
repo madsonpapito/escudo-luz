@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: #2c2c2c;
+    line-height: 1.7;
+    background-color: #ffffff;
+    max-width: 100%;
+    margin: 0;
+    padding: 20px 40px;
+}
+
+/* Tipografia */
+h1,
+h2,
+h3,
+h4 {
+    font-family: 'Cinzel', serif;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    color: #111;
+}
+
+h1 {
+    font-size: 2.8rem;
+    text-align: center;
+    color: #ca9f3e;
+    /* Dark Gold */
+    border-bottom: 2px solid #ca9f3e;
+    padding-bottom: 0.2em;
+    margin-top: 1em;
+    text-transform: uppercase;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #1a1a1a;
+    border-left: 4px solid #ca9f3e;
+    padding-left: 15px;
+    background: linear-gradient(to right, #fbf8f1, transparent);
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+h3 {
+    font-size: 1.4rem;
+    color: #ca9f3e;
+}
+
+p {
+    font-size: 1.05rem;
+    color: #444;
+}
+
+/* Elementos de destaque */
+strong {
+    color: #111;
+    font-weight: 600;
+}
+
+em {
+    color: #ca9f3e;
+    font-style: italic;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+}
+
+hr {
+    border: none;
+    border-top: 1px dashed #ca9f3e;
+    margin: 3em 0;
+}
+
+/* Citações e blocos (Ex: Salmos) */
+blockquote {
+    border-left: 4px solid #ca9f3e;
+    padding: 20px 25px;
+    margin: 2em 0;
+    background: #fdfcfa;
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+    border-radius: 0 8px 8px 0;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.02);
+}
+
+blockquote p {
+    margin: 0;
+    font-size: inherit;
+    color: inherit;
+}
+
+/* Listas */
+ul,
+ol {
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 0.8em;
+    color: #444;
+}
+
+/* Espaços de Anotação */
+li:has(> strong:contains("Minhas Reflexões")) {
+    list-style: none;
+    margin-top: 20px;
+}
+
+/* Quebras de Página Automáticas para melhor leitura */
+h1 {
+    page-break-before: always;
+}
+
+h1:first-of-type {
+    page-break-before: avoid;
+}
+
+/* Estilo para impressão (PDF) */
+@media print {
+    body {
+        padding: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: #ca9f3e;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+
+    blockquote {
+        page-break-inside: avoid;
+    }
+}
