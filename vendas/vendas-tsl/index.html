@@ -250,8 +250,114 @@
             flex-shrink: 0;
         }
 
+        /* FAQ & FLOATING BAR CSS */
+        .faq {
+            padding: 80px 0;
+            background: var(--bg-card)
+        }
+
+        .faq-list {
+            max-width: 760px;
+            margin: 48px auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .faq-item {
+            background: var(--letter-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #222
+        }
+
+        .faq-q {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            padding: 20px 24px;
+            text-align: left;
+            font-size: .95rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            transition: color .2s
+        }
+
+        .faq-q:hover {
+            color: var(--primary)
+        }
+
+        .faq-q .arrow {
+            font-size: .75rem;
+            transition: transform .3s;
+            flex-shrink: 0;
+            color: var(--primary)
+        }
+
+        .faq-a {
+            padding: 0 24px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .3s, padding .3s;
+            font-size: .9rem;
+            color: var(--text-muted);
+            line-height: 1.7
+        }
+
+        .faq-item.open .faq-a {
+            max-height: 200px;
+            padding: 0 24px 20px
+        }
+
+        .faq-item.open .arrow {
+            transform: rotate(180deg)
+        }
+
+        .float-bar {
+            position: fixed;
+            bottom: -80px;
+            left: 0;
+            width: 100%;
+            background: rgba(8, 6, 4, .97);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(212, 175, 55, .3);
+            padding: 14px 24px;
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+            transition: bottom .3s
+        }
+
+        .float-bar.show {
+            bottom: 0
+        }
+
+        .float-price {
+            font-size: .95rem;
+            color: var(--text-muted)
+        }
+
+        .float-price span {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem
+        }
+
         /* MOBILE */
         @media (max-width: 768px) {
+            .float-bar {
+                flex-direction: column;
+                gap: 10px;
+                padding: 14px
+            }
+
             .main-headline {
                 font-size: 2.2rem;
             }
@@ -306,7 +412,7 @@
 
             <!-- IMAGEM DOR/TEMPESTADE/ESCURIDÃO -->
             <div
-                style="width: 100%; min-height: 400px; background-image: url('imagens/Imagem%201.png'); background-size: cover; background-position: center; border-radius: 8px; margin: 40px 0; border: 1px solid rgba(212, 175, 55, 0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.6);">
+                style="width: 100%; min-height: 400px; background-image: url('imagens/imagem1.png'); background-size: cover; background-position: center; border-radius: 8px; margin: 40px 0; border: 1px solid rgba(212, 175, 55, 0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.6);">
             </div>
 
             <h2 style="font-size: 2rem; color: var(--primary); margin: 40px 0 20px;">A Guerra Invisível dentro do seu
@@ -331,7 +437,7 @@
 
             <!-- IMAGEM ESPERANÇA/ORAÇÃO -->
             <div
-                style="width: 100%; min-height: 400px; background-image: url('imagens/Imagem%202.png'); background-size: cover; background-position: center; border-radius: 8px; margin: 40px 0; border: 1px solid rgba(212, 175, 55, 0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.6);">
+                style="width: 100%; min-height: 400px; background-image: url('imagens/imagem2.png'); background-size: cover; background-position: center; border-radius: 8px; margin: 40px 0; border: 1px solid rgba(212, 175, 55, 0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.6);">
             </div>
 
             <h2 style="font-size: 2.2rem; color: var(--primary); margin: 50px 0 20px; text-align: center;">Apresentando:
@@ -435,6 +541,91 @@
         </div>
     </section>
 
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <p
+                style="text-align:center; font-size:.72rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--primary); margin-bottom:12px;">
+                Dúvidas frequentes</p>
+            <h2 class="serif" style="text-align:center; font-size:clamp(1.6rem, 3.5vw, 2.4rem); margin-bottom:20px;">
+                Perguntas e Respostas</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-q">Como vou acessar os áudios? <span class="arrow">▼</span></button>
+                    <div class="faq-a">Assim que o pagamento for aprovado (imediato no PIX e cartão), você receberá um
+                        e-mail com seu login e senha para acessar a plataforma exclusiva do Escudo de Luz. Funciona no
+                        celular e computador.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Precisa ser católico para participar? <span class="arrow">▼</span></button>
+                    <div class="faq-a">Não. Embora as orações sejam de inspiração católica, qualquer cristão que deseje
+                        proteção espiritual, paz no lar e queira buscar a Deus de todo o coração será imensamente
+                        abençoado.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Por quanto tempo terei acesso? <span class="arrow">▼</span></button>
+                    <div class="faq-a">O acesso é vitalício. Você paga uma única vez e pode ouvir os áudios para sempre
+                        — refazendo a jornada quantas vezes quiser, para você e para sua família.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Quanto tempo por dia preciso dedicar? <span class="arrow">▼</span></button>
+                    <div class="faq-a">Apenas 5 a 7 minutos por dia para os áudios da Jornada. Os áudios SOS têm 3
+                        minutos e podem ser acessados a qualquer momento de crise. Perfeito para quem tem rotina
+                        agitada.</div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-q">Posso presentear alguém com o Escudo de Luz? <span
+                            class="arrow">▼</span></button>
+                    <div class="faq-a">Sim! É um presente espiritual poderoso. Após a compra, entre em contato pelo
+                        WhatsApp e configuramos o acesso para a pessoa que você quer abençoar.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section
+        style="padding:80px 0;text-align:center;background:radial-gradient(circle at center,rgba(212,175,55,.08) 0%,transparent 70%)">
+        <div class="container">
+            <p style="font-size:1rem;color:var(--text-muted);margin-bottom:12px">Seu lar merece proteção. Sua família
+                merece paz.</p>
+            <h2 class="serif" style="font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:32px">Levante o <span
+                    style="color:var(--primary)">Escudo de Luz</span> agora</h2>
+            <a href="#oferta" class="btn"
+                style="display:inline-block;max-width:480px;width:100%;margin-bottom:14px;padding:18px;">✦ &nbsp;
+                Garantir Meu Acesso Vitalício · R$ 97</a>
+            <p style="font-size:.8rem;color:var(--text-muted)">🔒 Garantia de 7 dias · Acesso imediato · Pagamento
+                seguro</p>
+        </div>
+    </section>
+
+    <!-- FLOATING BAR -->
+    <div class="float-bar" id="floatBar">
+        <div class="float-price">Escudo de Luz por apenas <span
+                style="color:var(--primary); font-weight:700; font-size:1.1rem;">3x de R$ 34,90</span> ou R$ 97 à vista
+        </div>
+        <a href="#oferta" class="btn-sm"
+            style="padding:11px 28px; background:linear-gradient(135deg, var(--primary), var(--primary-dark)); color:#000; font-size:.9rem; font-weight:800; border-radius:6px; text-decoration:none; white-space:nowrap; transition:transform .2s;">✦
+            Garantir Agora</a>
+    </div>
+
+    <script>
+        // FAQ accordion
+        document.querySelectorAll('.faq-q').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+
+        // Floating bar
+        const bar = document.getElementById('floatBar');
+        window.addEventListener('scroll', () => {
+            bar.classList.toggle('show', window.scrollY > window.innerHeight * 0.6);
+        });
+    </script>
 </body>
 
 </html>
