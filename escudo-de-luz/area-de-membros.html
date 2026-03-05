@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área de Membros | Escudo de Luz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0a0a0b;
+            --bg-sidebar: #121214;
+            --bg-card: #18181b;
+            --bg-hover: #27272a;
+            --primary: #d4af37;
+            /* Gold */
+            --primary-dim: rgba(212, 175, 55, 0.15);
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --success: #10b981;
+            --danger: #ef4444;
+            --border: #27272a;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .brand {
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-icon {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .brand-text h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--text-main);
+        }
+
+        .brand-text p {
+            font-size: 0.75rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .progress-section {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--bg-hover);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 35%;
+            /* Ex: 10 days complete of 30 */
+            background: linear-gradient(90deg, var(--primary), #e6c86e);
+            border-radius: 3px;
+        }
+
+        .nav-menu {
+            padding: 16px 12px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 4px;
+            border-radius: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: var(--primary-dim);
+            color: var(--primary);
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 40px;
+            max-width: 1200px;
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+        }
+
+        /* AUDIO PLAYER */
+        .player-card {
+            background: linear-gradient(145deg, var(--bg-card), var(--bg-sidebar));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .player-cover {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #1a1a1a, #0a0a0a);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-dim);
+        }
+
+        .player-info {
+            flex: 1;
+        }
+
+        .player-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+
+        .player-info p {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-play {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--bg-main);
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .btn-play:hover {
+            transform: scale(1.05);
+        }
+
+        .waveform {
+            flex: 1;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .bar {
+            flex: 1;
+            background-color: var(--bg-hover);
+            border-radius: 2px;
+            height: var(--h);
+            transition: background-color 0.2s;
+        }
+
+        .bar.played {
+            background-color: var(--primary);
+        }
+
+        .time {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            min-width: 45px;
+        }
+
+        .btn-complete {
+            background: transparent;
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: 20px;
+        }
+
+        .btn-complete:hover {
+            background: var(--success);
+            color: #fff;
+        }
+
+        /* GRID TABS */
+        .section-tabs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        .tab {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            padding-bottom: 12px;
+            margin-bottom: -13px;
+        }
+
+        .tab.active {
+            color: var(--primary);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        /* GRID DAYS */
+        .grid-days {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .day-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .day-card:hover:not(.locked) {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .day-number {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .day-title {
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* States */
+        .day-card.completed {
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .day-card.completed::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--success);
+            font-size: 0.9rem;
+        }
+
+        .day-card.active {
+            border-color: var(--primary);
+            background: linear-gradient(to bottom right, var(--bg-card), rgba(212, 175, 55, 0.05));
+        }
+
+        .day-card.active::before {
+            content: '\f144';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .day-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .day-card.locked::before {
+            content: '\f023';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* SOS SECTION */
+        .sos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .sos-card {
+            background: linear-gradient(45deg, rgba(239, 68, 68, 0.1), var(--bg-card));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .sos-card:hover {
+            transform: translateX(5px);
+            border-color: var(--danger);
+        }
+
+        .sos-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .sos-info h4 {
+            font-size: 1.05rem;
+            margin-bottom: 4px;
+        }
+
+        .sos-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* DOWNLOADS */
+        .download-card {
+            background: var(--bg-card);
+            border: 1px dashed var(--primary);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            max-width: 600px;
+        }
+
+        .download-btn {
+            background: var(--primary-dim);
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .download-btn:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        /* UTILS */
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: 0.3s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .player-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .player-controls {
+                width: 100%;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .btn-complete {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="brand-text">
+                <h2>Escudo de Luz</h2>
+                <p>Membro Premium</p>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-header">
+                <span>Progresso Total</span>
+                <span>35%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; text-align: center;">
+                10 de 30 dias concluídos
+            </p>
+        </div>
+
+        <nav class="nav-menu">
+            <a class="nav-item active" onclick="switchTab('jornada')">
+                <i class="fa-solid fa-route"></i>
+                <span>Jornada de 30 Dias</span>
+            </a>
+            <a class="nav-item" onclick="switchTab('sos')">
+                <i class="fa-solid fa-heart-pulse" style="color: var(--danger)"></i>
+                <span>Áudios SOS</span>
+            </a>
+            <a class="nav-item" onclick="switchTab('downloads')">
+                <i class="fa-solid fa-file-arrow-down"></i>
+                <span>Materiais & PDFs</span>
+            </a>
+            <a class="nav-item" onclick="switchTab('ritual')">
+                <i class="fa-solid fa-crown" style="color: var(--primary)"></i>
+                <span>Ritual de Consagração</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <header class="header">
+            <h1 id="page-title">Bem-vindo de volta, Sentinela</h1>
+            <p id="page-subtitle">Continue fortalecendo o seu lar diariamente.</p>
+        </header>
+
+        <!-- CONTAINER: JORNADA -->
+        <div id="view-jornada">
+            <!-- PLAYER ATIVO -->
+            <div class="player-card">
+                <div class="player-cover">
+                    <i class="fa-solid fa-play"></i>
+                </div>
+                <div class="player-info">
+                    <p>DIA 11 • FASE 2: ARMADURA DE DEUS</p>
+                    <h3>O Cinturão da Verdade</h3>
+
+                    <div class="player-controls">
+                        <button class="btn-play"><i class="fa-solid fa-play"></i></button>
+                        <span class="time">00:00</span>
+
+                        <!-- Mini waveform mockup -->
+                        <div class="waveform" id="waveform">
+                            <!-- Gerado via JS para mockup visual -->
+                        </div>
+
+                        <span class="time">06:45</span>
+                        <button class="btn-complete" onclick="markComplete(this)"><i class="fa-solid fa-check"></i>
+                            Marcar como Concluído</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FASES / DIAS -->
+            <div class="section-tabs">
+                <button class="tab active">Fase 1 (Completo)</button>
+                <button class="tab">Fase 2 (Em andamento)</button>
+                <button class="tab">Fase 3 (Bloqueado)</button>
+            </div>
+
+            <div class="grid-days">
+                <div class="day-card completed">
+                    <span class="day-number">DIA 08</span>
+                    <h4 class="day-title">Livrando os Filhos das Falanges</h4>
+                </div>
+                <div class="day-card completed">
+                    <span class="day-number">DIA 09</span>
+                    <h4 class="day-title">A Inveja como Porta de Entrada</h4>
+                </div>
+                <div class="day-card completed">
+                    <span class="day-number">DIA 10</span>
+                    <h4 class="day-title">Fechamento com São Miguel</h4>
+                </div>
+                <div class="day-card active">
+                    <span class="day-number">DIA 11</span>
+                    <h4 class="day-title">O Cinturão da Verdade</h4>
+                </div>
+                <div class="day-card locked">
+                    <span class="day-number">DIA 12</span>
+                    <h4 class="day-title">A Couraça da Justiça</h4>
+                </div>
+                <div class="day-card locked">
+                    <span class="day-number">DIA 13</span>
+                    <h4 class="day-title">Os Calçados do Evangelho</h4>
+                </div>
+                <div class="day-card locked">
+                    <span class="day-number">DIA 14</span>
+                    <h4 class="day-title">O Escudo da Fé</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTAINER: SOS -->
+        <div id="view-sos" class="hidden">
+            <p style="color: var(--text-muted); margin-bottom: 30px;">
+                Orações poderosas de 3 minutos para momentos de emergência espoiritual e emocional.
+            </p>
+
+            <div class="sos-grid">
+                <div class="sos-card">
+                    <div class="sos-icon"><i class="fa-solid fa-lungs"></i></div>
+                    <div class="sos-info">
+                        <h4>Crise de Ansiedade e Pânico</h4>
+                        <p>Respiração guiada + Salmo 91</p>
+                    </div>
+                </div>
+                <div class="sos-card">
+                    <div class="sos-icon"><i class="fa-solid fa-house-chimney-crack"></i></div>
+                    <div class="sos-info">
+                        <h4>Brigas no Lar / Tempestade</h4>
+                        <p>Invocando a paz de Cristo</p>
+                    </div>
+                </div>
+                <div class="sos-card">
+                    <div class="sos-icon"><i class="fa-solid fa-moon"></i></div>
+                    <div class="sos-info">
+                        <h4>Ataque Noturno e Insônia</h4>
+                        <p>Oração para dormir em paz</p>
+                    </div>
+                </div>
+                <div class="sos-card">
+                    <div class="sos-icon"><i class="fa-solid fa-coins"></i></div>
+                    <div class="sos-info">
+                        <h4>Emergência Financeira</h4>
+                        <p>Providência Divina urgente</p>
+                    </div>
+                </div>
+                <!-- Mais cards de SOS podem vir aqui -->
+            </div>
+        </div>
+
+        <!-- CONTAINER: DOWNLOADS -->
+        <div id="view-downloads" class="hidden">
+            <h2 style="margin-bottom: 24px;">Biblioteca da Sentinela</h2>
+
+            <div class="download-card">
+                <div>
+                    <h3 style="margin-bottom: 8px;">Guia do Sentinela (PDF)</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Livro digital de acompanhamento dos 30 dias
+                        com espaço para anotações.</p>
+                </div>
+                <a href="#" class="download-btn"><i class="fa-solid fa-download"></i> Baixar</a>
+            </div>
+
+            <div class="download-card">
+                <div>
+                    <h3 style="margin-bottom: 8px;">Roteiro de Consagração do Lar</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Passo a passo com as orações impressas para
+                        o Ritual Final no Dia 30.</p>
+                </div>
+                <a href="#" class="download-btn"><i class="fa-solid fa-download"></i> Baixar</a>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Mockup Waveform generation
+        const waveform = document.getElementById('waveform');
+        for (let i = 0; i < 40; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            // Random height between 20% and 100%
+            const height = Math.floor(Math.random() * 80) + 20;
+            bar.style.setProperty('--h', `${height}%`);
+
+            // Mark some as played
+            if (i < 15) bar.classList.add('played');
+            waveform.appendChild(bar);
+        }
+
+        // Simulação de reprodução/Play do aúdio
+        document.querySelector('.btn-play').addEventListener('click', function () {
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('fa-play')) {
+                icon.classList.replace('fa-play', 'fa-pause');
+                this.style.background = '#fff';
+            } else {
+                icon.classList.replace('fa-pause', 'fa-play');
+                this.style.background = 'var(--primary)';
+            }
+        });
+
+        // Marcar aula como concluída
+        function markComplete(btn) {
+            btn.innerHTML = '<i class="fa-solid fa-check-double"></i> Concluído';
+            btn.style.background = 'var(--success)';
+            btn.style.color = '#fff';
+        }
+
+        // Navegação Lateral
+        function switchTab(tabId) {
+            // Reset nav
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Hide all views
+            document.getElementById('view-jornada').classList.add('hidden');
+            document.getElementById('view-sos').classList.add('hidden');
+            document.getElementById('view-downloads').classList.add('hidden');
+
+            // Change Titles and View
+            const title = document.getElementById('page-title');
+            const sub = document.getElementById('page-subtitle');
+
+            if (tabId === 'jornada') {
+                title.innerText = "Bem-vindo de volta, Sentinela";
+                sub.innerText = "Continue fortalecendo o seu lar diariamente.";
+                document.getElementById('view-jornada').classList.remove('hidden');
+            } else if (tabId === 'sos') {
+                title.innerText = "Módulo de Emergência (SOS)";
+                sub.innerText = "Acesse socorro espiritual imediato para momentos de crise.";
+                document.getElementById('view-sos').classList.remove('hidden');
+            } else if (tabId === 'downloads') {
+                title.innerText = "Materiais Adicionais";
+                sub.innerText = "Baixe os PDFs e recursos complementares da sua jornada.";
+                document.getElementById('view-downloads').classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+
+</html>
