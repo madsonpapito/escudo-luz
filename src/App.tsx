@@ -116,31 +116,40 @@ function PlayerCard({ dia, onComplete, completed, loadingComplete }: {
 }
 
 // ───── JORNADA VIEW ─────
-function JornadaView({ concluidos, setConcluidos, updateProgress }: {
+function JornadaView({ concluidos, setConcluidos, updateProgress, createdAt }: {
     concluidos: number[]
     setConcluidos: React.Dispatch<React.SetStateAction<number[]>>
     updateProgress: (newDay: number) => Promise<void>
+    createdAt: string | null
 }) {
-    const ultimoDia = concluidos.length > 0 ? Math.max(...concluidos) + 1 : 1
-    const diaAtual = Math.min(ultimoDia, 30)
+    const ultimoDiaConcluido = concluidos.length > 0 ? Math.max(...concluidos) : 0
+    
+    // Calcula quantos dias se passaram desde a compra (D1 é imediato)
+    const diasDesdeCompra = createdAt 
+        ? Math.floor((new Date().getTime() - new Date(createdAt).getTime()) / (1000 * 60 * 60 * 24)) + 1
+        : 1
 
-    const [faseAtiva, setFaseAtiva] = useState<1 | 2 | 3>(diaAtual <= 10 ? 1 : diaAtual <= 20 ? 2 : 3)
-    const [diaAtivo, setDiaAtivo] = useState(DIAS.find(d => d.id === diaAtual)!)
+    const ultimoDiaLiberadoPelaProgressao = ultimoDiaConcluido + 1
+    const diaAtualId = Math.min(Math.min(ultimoDiaLiberadoPelaProgressao, diasDesdeCompra), 30)
+
+    const [faseAtiva, setFaseAtiva] = useState<1 | 2 | 3>(diaAtualId <= 10 ? 1 : diaAtualId <= 20 ? 2 : 3)
+    const [diaAtivo, setDiaAtivo] = useState(DIAS.find(d => d.id === diaAtualId)!)
     const [isSaving, setIsSaving] = useState(false)
 
-    // Atualiza o dia ativo caso a pessoa conclua o dia atual dela
+    // Atualiza o dia ativo caso a pessoa conclua o dia atual dela e o tempo permita
     useEffect(() => {
-        // Se ela marcou como concluído e estamos vendo o dia novo, avança
-        if (concluidos.includes(diaAtivo.id) && diaAtivo.id < 30) {
-            setDiaAtivo(DIAS.find(d => d.id === diaAtivo.id + 1)!)
+        const proximoDiaId = diaAtivo.id + 1
+        if (concluidos.includes(diaAtivo.id) && proximoDiaId <= 30 && proximoDiaId <= diasDesdeCompra) {
+            setDiaAtivo(DIAS.find(d => d.id === proximoDiaId)!)
         }
-    }, [concluidos])
+    }, [concluidos, diasDesdeCompra])
 
     const diasDaFase = DIAS.filter(d => d.fase === faseAtiva)
 
     function getStatus(id: number): 'completed' | 'active' | 'locked' {
         if (concluidos.includes(id)) return 'completed'
-        if (id <= ultimoDia) return 'active' // desbloqueado
+        // Desbloqueado apenas se completou o anterior E se o tempo de compra permite
+        if (id <= ultimoDiaLiberadoPelaProgressao && id <= diasDesdeCompra) return 'active'
         return 'locked'
     }
 
@@ -163,6 +172,22 @@ function JornadaView({ concluidos, setConcluidos, updateProgress }: {
                 onComplete={() => handleComplete(diaAtivo.id)}
                 loadingComplete={isSaving}
             />
+
+            {/* Aviso de Próximo Dia caso bloqueado pelo tempo */}
+            {concluidos.includes(diaAtivo.id) && diaAtivo.id < 30 && (diaAtivo.id + 1) > diasDesdeCompra && (
+                <div style={{ 
+                    background: 'rgba(212, 175, 55, 0.1)', 
+                    border: '1px solid var(--gold)', 
+                    padding: '12px 20px', 
+                    borderRadius: 8, 
+                    marginBottom: 24,
+                    fontSize: '0.9rem',
+                    color: 'var(--gold)',
+                    textAlign: 'center'
+                }}>
+                    ✨ Você concluiu a jornada de hoje! O próximo áudio será liberado em 24 horas.
+                </div>
+            )}
 
             {/* Barra de progresso total */}
             <div style={{ marginBottom: 28 }}>
@@ -200,6 +225,9 @@ function JornadaView({ concluidos, setConcluidos, updateProgress }: {
                         >
                             <span className="day-num">DIA {String(dia.id).padStart(2, '0')}</span>
                             <h4 className="day-title">{dia.titulo}</h4>
+                            {status === 'locked' && dia.id > diasDesdeCompra && (
+                                <span style={{fontSize: '0.65rem', opacity: 0.6, marginTop: 4}}>Bloqueado pelo tempo</span>
+                            )}
                         </div>
                     )
                 })}
@@ -416,6 +444,7 @@ export default function App() {
     const [tab, setTab] = useState<Tab>('jornada')
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const [concluidos, setConcluidos] = useState<number[]>([])
+    const [createdAt, setCreatedAt] = useState<string | null>(null)
     const [sosAtivo, setSosAtivo] = useState<typeof SOS_AUDIOS[0] | null>(null)
 
     // Escutar Sessão e Buscar Perfil
@@ -440,12 +469,13 @@ export default function App() {
         setLoadingAuth(true)
         const { data, error } = await supabase
             .from('escudo_profiles')
-            .select('dias_concluidos')
+            .select('dias_concluidos, created_at')
             .eq('id', userId)
             .single()
 
         if (data) {
             setConcluidos(data.dias_concluidos || [])
+            setCreatedAt(data.created_at)
         } else if (error) {
             console.error("Erro ao puxar perfil:", error)
         }
@@ -562,7 +592,7 @@ export default function App() {
                     <p>{titulos[tab].sub}</p>
                 </div>
 
-                {tab === 'jornada' && <JornadaView concluidos={concluidos} setConcluidos={setConcluidos} updateProgress={salvarProgresso} />}
+                {tab === 'jornada' && <JornadaView concluidos={concluidos} setConcluidos={setConcluidos} updateProgress={salvarProgresso} createdAt={createdAt} />}
                 {tab === 'sos' && <SosView onPlay={setSosAtivo} />}
                 {tab === 'downloads' && <DownloadsView />}
                 {tab === 'ritual' && <RitualView />}
