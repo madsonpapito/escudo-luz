@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obrigado! - Escudo de Luz</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #050505;
+            color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+        }
+
+        h1,
+        h2,
+        h3,
+        .font-serif {
+            font-family: 'Cinzel', serif;
+        }
+
+        .text-gold {
+            color: #d4af37;
+        }
+
+        .bg-gold {
+            background-color: #d4af37;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
+            color: #000;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+            background: linear-gradient(135deg, #e5c158 0%, #c49622 100%);
+        }
+
+        .icon-pulse {
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.5));
+            }
+
+            50% {
+                transform: scale(1.05);
+                filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.8));
+            }
+
+            100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.5));
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <div
+        class="max-w-2xl mx-auto px-6 py-12 text-center rounded-2xl border border-gray-800 bg-black/40 backdrop-blur-sm relative overflow-hidden">
+        <!-- Decorativo -->
+        <div
+            class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent opacity-50">
+        </div>
+
+        <!-- Ícone de Sucesso -->
+        <div class="mb-8 flex justify-center">
+            <div
+                class="w-24 h-24 rounded-full border-2 border-[#d4af37] flex items-center justify-center bg-[#d4af37]/10 icon-pulse">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-[#d4af37]" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+        </div>
+
+        <h1
+            class="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#d4af37] to-[#aa7c11]">
+            Compra Confirmada!
+        </h1>
+
+        <p class="text-lg md:text-xl text-gray-300 mb-8 font-light leading-relaxed">
+            Sua jornada de proteção e fortalecimento espiritual começa agora. O acesso completo ao <strong
+                class="text-white font-medium">Escudo de Luz</strong> já foi enviado para o seu e-mail.
+        </p>
+
+        <div class="bg-gray-900/50 rounded-xl p-6 mb-8 border border-gray-800">
+            <h3 class="text-gold font-serif text-xl mb-3 flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clip-rule="evenodd" />
+                </svg>
+                Próximos Passos
+            </h3>
+            <ul class="text-left text-gray-400 space-y-3 font-light">
+                <li class="flex items-start">
+                    <span class="text-[#d4af37] mr-2">•</span>
+                    Verifique sua caixa de entrada (e a pasta de spam, por precaução) procurando por um e-mail com as
+                    instruções de acesso.
+                </li>
+                <li class="flex items-start">
+                    <span class="text-[#d4af37] mr-2">•</span>
+                    Defina sua senha de acesso na plataforma.
+                </li>
+                <li class="flex items-start">
+                    <span class="text-[#d4af37] mr-2">•</span>
+                    Acesse o portal e inicie a sua transformação.
+                </li>
+            </ul>
+        </div>
+
+        <a href="https://escudo-luz.vercel.app/"
+            class="inline-flex items-center justify-center w-full md:w-auto px-8 py-4 font-bold text-lg rounded-full btn-gold tracking-wide uppercase">
+            Acessar Área de Membros
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd" />
+            </svg>
+        </a>
+
+        <p class="mt-6 text-sm text-gray-500">
+            Se precisar de ajuda, entre em contato com nosso suporte.
+        </p>
+
+    </div>
+
+</body>
+
+</html>
