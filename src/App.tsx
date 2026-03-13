@@ -91,7 +91,9 @@ function PlayerCard({ dia, onComplete, completed, loadingComplete }: {
 
     return (
         <div className="player-card">
-            <div className={`player-cover ${playing ? 'playing' : ''}`}>🛡️</div>
+            <div className={`player-cover ${playing ? 'playing' : ''}`}>
+                <img src="/imagens/imagem3.webp" alt="Escudo" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+            </div>
             <div className="player-info">
                 <p className="player-phase">{fase.icon} DIA {String(dia.id).padStart(2, '0')} • {fase.nome.toUpperCase()}</p>
                 <h3 className="player-title">{dia.titulo}</h3>
@@ -403,7 +405,9 @@ function LoginPage({ onLoginSuccess }: { onLoginSuccess: () => void }) {
         <div className="login-page">
             <div className="login-card">
                 <div className="login-logo">
-                    <div className="login-shield">🛡️</div>
+                    <div className="login-shield">
+                    <img src="/imagens/imagem3.webp" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+                </div>
                     <h1 style={{ fontFamily: 'Cinzel,serif' }}>Escudo de Luz</h1>
                     <p style={{ color: 'var(--gold)' }}>Acesso do Sentinela</p>
                 </div>
@@ -540,7 +544,9 @@ export default function App() {
             {/* Sidebar */}
             <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
                 <div className="sidebar-brand">
-                    <div className="brand-shield">🛡️</div>
+                    <div className="brand-shield">
+                        <img src="/imagens/imagem3.webp" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+                    </div>
                     <div className="brand-text">
                         <h2>Escudo de Luz</h2>
                         <p>Sentinela Premium</p>

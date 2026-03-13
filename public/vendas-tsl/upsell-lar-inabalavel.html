@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espere! Seu pedido ainda não está completo...</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #030303;
+            --surface-color: #0A0A0A;
+            --surface-lighter: #141414;
+            --primary: #D4AF37;
+            --primary-dark: #B38F24;
+            --text-light: #F5F5F5;
+            --text-muted: #A3A3A3;
+            --danger: #E53935;
+            --border-color: rgba(212, 175, 55, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            text-align: center;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+        }
+
+        .attention-bar {
+            background-color: var(--danger);
+            color: white;
+            padding: 12px 20px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse-bg 2s infinite;
+        }
+
+        @keyframes pulse-bg {
+            0% { background-color: var(--danger); }
+            50% { background-color: #B71C1C; }
+            100% { background-color: var(--danger); }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .headline {
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--primary);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .subheadline {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .copy-section {
+            background: var(--surface-lighter);
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        .copy-section p {
+            font-size: 1.15rem;
+            margin-bottom: 25px;
+            color: #E0E0E0;
+        }
+
+        .highlight-text { color: var(--primary); font-weight: 600; }
+
+        .benefits-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .benefits-list li {
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .benefits-list li::before {
+            content: '✓';
+            color: var(--primary);
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .offer-box {
+            border: 2px dashed var(--primary);
+            background: rgba(212, 175, 55, 0.03);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .price-strike {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .price-new {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .price-desc {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .btn-yes {
+            display: inline-block;
+            background: linear-gradient(135deg, #43A047, #2E7D32);
+            color: white;
+            text-decoration: none;
+            padding: 24px 40px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(67, 160, 71, 0.3);
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(67, 160, 71, 0.5);
+        }
+
+        .btn-no {
+            display: inline-block;
+            background: transparent;
+            color: var(--text-muted);
+            text-decoration: underline;
+            padding: 15px;
+            font-size: 1rem;
+            transition: color 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-no:hover { color: var(--danger); }
+    </style>
+</head>
+
+<body>
+
+    <div class="attention-bar">
+        ⚠️ PARE! NÃO FECHE ESTA PÁGINA. SEU PEDIDO AINDA NÃO FOI FINALIZADO! ⚠️
+    </div>
+
+    <div class="container">
+
+        <p style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 15px; font-weight: 600;">
+            Parabéns pela sua decisão no "Escudo de Luz"
+        </p>
+
+        <h1 class="headline">Você acabou de conquistar a sua proteção espiritual, mas tenho algo a lhe revelar...</h1>
+
+        <p class="subheadline">Leia o texto abaixo com atenção para entender como purificar não só os seus caminhos, mas <strong>tudo que está dentro do seu lar</strong> antes de acessar sua área de membros.</p>
+
+        <div class="copy-section">
+            <h2 style="font-size: 2rem; color: var(--primary); margin-bottom: 25px; text-align: center;">O Passo Final Para Blindar Sua Família</h2>
+
+            <p>O <strong>Escudo de Luz</strong> que você acabou de adquirir vai proteger a <em>sua mente</em> e os <em>seus caminhos</em> diários.</p>
+            <p>Porém, as maiores batalhas espirituais não acontecem na rua. <strong>Elas acontecem dentro de casa.</strong></p>
+            <p>Brigas constantes no casamento, filhos agitados, noites mal dormidas, eletrodomésticos que quebram do nada e um clima pesado assim que você cruza a porta da sala... isso soa familiar?</p>
+            <p>É por isso que criei o treinamento <strong>"O Lar Inabalável"</strong>.</p>
+            <p>Ele é o complemento perfeito. Enquanto o Escudo de Luz protege <span class="highlight-text">Você</span>, o Lar Inabalável limpa, purifica e levanta muralhas ao redor da casa e de <span class="highlight-text">Toda a Sua Família</span>.</p>
+
+            <h3 style="margin-top: 40px; margin-bottom: 20px; font-size: 1.5rem;">Com o Lar Inabalável, você terá acesso a:</h3>
+
+            <ul class="benefits-list">
+                <li><strong>O Mapeamento da Sugada:</strong> Descubra quais objetos estão trazendo estagnação financeira para dentro de casa.</li>
+                <li><strong>Purificação dos Quartos:</strong> A oração exata e prática para acabar com o terror noturno das crianças.</li>
+                <li><strong>Blindagem Conjugal:</strong> Como isolar as discussões e quebrar a energia de divórcio no seu lar.</li>
+                <li><strong>Consagração Diária do seu Teto:</strong> Uma rotina de 5 minutos para transformar o ar do seu lar em paz.</li>
+            </ul>
+        </div>
+
+        <div class="offer-box">
+            <h2 style="font-size: 1.8rem; margin-bottom: 15px;">Esta é uma Oferta Única. E não será repetida.</h2>
+            <p style="font-size: 1.1rem; color: #E0E0E0; margin-bottom: 30px;">Como você já deu o primeiro passo, eu quero praticamente <em>dar</em> esse treinamento de presente para você hoje.</p>
+
+            <div class="price-strike">De R$ 197,00 por apenas:</div>
+            <div class="price-new">R$ 67,00</div>
+            <div class="price-desc">Ou 7x de R$ 10,55. Pagamento 100% seguro com 1 Clique.</div>
+
+            <div style="text-align:center; margin-top: 40px;" id="kiwify-upsell-CAah3ug" data-upsell-url="obrigado.html" data-downsell-url="obrigado.html">
+                <button id="kiwify-upsell-trigger-CAah3ug" class="btn-yes" style="cursor:pointer; width: 100%; max-width: 600px; border: none; text-transform: uppercase;">SIM! Quero Blindar Meu Lar Por +R$ 67</button>
+                <div id="kiwify-upsell-cancel-trigger-CAah3ug" style="margin-top:1rem;cursor:pointer;font-size:16px;text-decoration:underline;font-family:sans-serif; color: var(--text-muted);">Não, eu gostaria de recusar essa oferta</div>
+            </div>
+            <script src="https://snippets.kiwify.com/upsell/upsell.min.js"></script>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
